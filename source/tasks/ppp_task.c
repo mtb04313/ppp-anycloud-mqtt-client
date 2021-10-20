@@ -240,8 +240,6 @@ static cy_rslt_t connect_to_ppp(void)
             CY_LOGE(TAG, "modem is in-use");
             return result;
         }
-
-        //cy_rtos_delay_milliseconds(PPP_CONN_RETRY_INTERVAL_MSEC);
     }
 
     /* Stop retrying after maximum retry attempts. */

@@ -52,7 +52,7 @@
 
 #include "wifi_config.h"
 #include "cy_debug.h"
-
+#include "cy_console_ui.h"
 #include "strings.h"
 
 
@@ -106,9 +106,32 @@ static cy_rslt_t connect_to_wifi_ap(void)
 
     /* Join the Wi-Fi AP. */
     for (uint32_t conn_retries = 0; conn_retries < MAX_WIFI_CONN_RETRIES; conn_retries++) {
+
+        // Ask the user whether to connect to Wi-Fi
+        // (This is useful if the Wi-Fi credentials are incorrect,
+        //  which will always fail to connect)
+        PRINT_MSG(("\n# Waiting %d sec for user intervention\n", WIFI_CONN_RETRY_INTERVAL_MS/1000));
+        PRINT_MSG(("  If you do not wish to start Wi-Fi, press a key to enter the Console Menu,\n"));
+        PRINT_MSG(("  select Manage I/O -> Wi-Fi -> Stop\n"));
+
+        uint32_t ulNotifiedValue = 0;
+        result = cy_notification_wait(&s_notification,
+                                      0x00,              /* Don't clear any notification bits on entry. */
+                                      UINT32_MAX,        /* Reset the notification value to 0 on exit. */
+                                      &ulNotifiedValue,  /* Notified value pass out in */
+                                      WIFI_CONN_RETRY_INTERVAL_MS);
+        if (ulNotifiedValue != 0) {
+            print_notified_value(ulNotifiedValue);
+
+            if (ulNotifiedValue == NOTIF_STOP_IO) {
+                CY_LOGD(TAG, "User does not want to start Wi-Fi\n");
+                return CY_RSLT_WCM_INTERFACE_NOT_UP;
+            }
+        }
+
         result = cy_wcm_connect_ap(&wifi_conn_param, &ip_address);
 
-        if(result == CY_RSLT_SUCCESS) {
+        if (result == CY_RSLT_SUCCESS) {
             CY_LOGD(TAG, "Successfully connected to Wi-Fi network '%s'.",
                     wifi_conn_param.ap_credentials.SSID);
 
@@ -127,11 +150,7 @@ static cy_rslt_t connect_to_wifi_ap(void)
             return result;
         }
 
-        CY_LOGE(TAG, "Connection to Wi-Fi network failed with error code %d."
-                "Retrying in %d ms...",
-                (int)result, WIFI_CONN_RETRY_INTERVAL_MS);
-
-        cy_rtos_delay_milliseconds(WIFI_CONN_RETRY_INTERVAL_MS);
+        CY_LOGE(TAG, "Connection to Wi-Fi network failed with error code %d", (int)result);
     }
 
     /* Stop retrying after maximum retry attempts. */

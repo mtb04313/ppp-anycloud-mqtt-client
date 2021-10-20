@@ -332,7 +332,8 @@ Download and install the Mosquitto Broker for your computer from https://mosquit
 
 3. Create a configuration file for the Mosquitto Broker - *mosquitto.conf* with the following contents and provide the path to the generated credentials (*ca.crt*, *server.crt*, and *server.key*) under the SSL settings section.
    ```
-   # Config file for mosquitto
+   
+   Config file for mosquitto:
    connection_messages true
    per_listener_settings true
 
@@ -341,7 +342,7 @@ Download and install the Mosquitto Broker for your computer from https://mosquit
    use_identity_as_username true
    allow_anonymous false
 
-   # SSL settings
+   SSL settings:
    cafile <path-to-ca.crt>
    keyfile <path-to-server.key>
    certfile <path-to-server.crt>
