@@ -66,16 +66,12 @@
 #include "cy_memtrack.h"
 #include "cy_atmodem.h"
 
-#if (FEATURE_ESIM_LPA_MENU == ENABLE_FEATURE)
-#include "cy_esim_lpa_menu.h"
+#if ((FEATURE_ESIM_LPA_MENU == ENABLE_FEATURE) || (FEATURE_UNIT_TEST_CURL == ENABLE_FEATURE))
+#include "cy_esim_lpa_stack_api.h"
 #endif
 
 #include "cy_modem.h"
 #include "cy_console_ui.h"
-
-#if (FEATURE_UNIT_TEST_CURL == ENABLE_FEATURE)
-#include "cy_unit_test_curl.h"
-#endif
 
 #if (FEATURE_UNIT_TEST_RTOS == ENABLE_FEATURE)
 #include "cy_unit_test_rtos.h"
@@ -91,6 +87,10 @@
 #define SHOW_ESIM_LPA_MENU  true
 #else
 #define SHOW_ESIM_LPA_MENU  false
+#endif
+
+#if SHOW_ESIM_LPA_MENU
+#include "esim_lpa_stack_client.h"
 #endif
 
 
@@ -505,7 +505,7 @@ static void handle_lpa_menu(void)
 
 #if (FEATURE_ESIM_LPA_MENU == ENABLE_FEATURE)
     if (result == CY_RSLT_SUCCESS) {
-        esim_lpa_menu();
+        esim_lpa_stack_menu();
 
 #else
         int result = lpa_simple_initialize();
@@ -645,7 +645,7 @@ static void console_menu(void)
 #if (FEATURE_UNIT_TEST_CURL == ENABLE_FEATURE)
             else if (selection == optionUnitTestCurl) {
                 if (get_user_confirmation()) {
-                    unit_test_curl_main();
+                    esim_lpa_stack_platform_unit_test_curl();
                 }
             }
 #endif
