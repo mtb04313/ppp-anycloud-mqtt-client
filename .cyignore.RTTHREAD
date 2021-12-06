@@ -1,0 +1,4 @@
+../mtb_shared/freertos
+../mtb_shared/clib-support
+$(SEARCH_aws-iot-device-sdk-embedded-C)/libraries/standard/coreHTTP
+
