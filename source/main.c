@@ -51,10 +51,14 @@
 #include "ppp_task.h"
 #include "mqtt_task.h"
 #include "console_task.h"
+#include "ble_modem_task.h"
 
 #include "cyabs_rtos.h"
 #include "cy_log.h"
 #include "cy_memtrack.h"
+
+#include "app_bt_gatt_handler.h"
+#include "cy_modem.h"
 
 /******************************************************************************
 * Global Variables
@@ -118,8 +122,12 @@ int main_thread(void)
 
 #endif
 
+#if (FEATURE_PPP == ENABLE_FEATURE) || (FEATURE_BLE_MODEM == ENABLE_FEATURE)
+    // modem is required by PPP or BLE feature
+    cy_modem_init();
+#endif
+
 #if (FEATURE_PPP == ENABLE_FEATURE)
-    ppp_modem_init();
     result = cy_rtos_create_thread( &g_ppp_task_handle,
                                     ppp_task,
                                     PPP_TASK_NAME,
@@ -144,6 +152,25 @@ int main_thread(void)
                                   );
     DEBUG_ASSERT(result == CY_RSLT_SUCCESS);
 #endif
+
+
+#if (FEATURE_BLE_MODEM == ENABLE_FEATURE)
+    if (!ble_init()) {
+      DEBUG_PRINT(("Error initializing BT stack\n"));
+      DEBUG_ASSERT(0);
+    }
+
+    result = cy_rtos_create_thread( &g_ble_modem_task_handle,
+                                    ble_modem_task,
+                                    BLE_MODEM_TASK_NAME,
+                                    NULL,
+                                    BLE_MODEM_TASK_STACK_SIZE,
+                                    BLE_MODEM_TASK_PRIORITY,
+                                    (cy_thread_arg_t) NULL
+                                  );
+    DEBUG_ASSERT(result == CY_RSLT_SUCCESS);
+#endif
+
 
 #if (FEATURE_CONSOLE == ENABLE_FEATURE)
     result = cy_rtos_create_thread( &g_console_task_handle,
