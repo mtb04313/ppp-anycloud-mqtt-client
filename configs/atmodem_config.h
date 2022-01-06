@@ -51,7 +51,8 @@ extern "C" {
 
 /* modem model */
 //#define ATMODEM_HW                ATMODEM_HW_MURATA_1SC
-#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
+//#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
+#define ATMODEM_HW                ATMODEM_HW_QUECTEL_BG96
 
 
 /* hardware pins */
