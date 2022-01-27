@@ -53,7 +53,8 @@ extern "C" {
 //#define ATMODEM_HW                ATMODEM_HW_MURATA_1SC
 //#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
 //#define ATMODEM_HW                ATMODEM_HW_QUECTEL_BG96
-#define ATMODEM_HW                ATMODEM_HW_SIMCOM_A7670E
+//#define ATMODEM_HW                ATMODEM_HW_SIMCOM_A7670E
+#define ATMODEM_HW                ATMODEM_HW_UBLOX_LARA_R280
 
 /* hardware pins */
 #define ATMODEM_HW_PIN_UART_RX      P5_4  // use (P13_4) for 62S2 Pioneer Kit // use (P5_4) for WIFI-BT Protyping Kit
