@@ -543,7 +543,7 @@ static void handle_lpa_menu(void)
     }
 
     if (is_modem_connected) {
-        result = cy_pcm_disconnect_modem(CY_RTOS_NEVER_TIMEOUT);
+        result = cy_pcm_disconnect_modem(CY_RTOS_NEVER_TIMEOUT, false);
         if (result != CY_RSLT_SUCCESS) {
             CY_LOGD(TAG, "cy_pcm_disconnect_modem failed!");
 
