@@ -79,6 +79,8 @@
 
 #define ACK_TRANSRECEIVE_CHUNK  0x01
 
+#define SEND_NOTIFICATION_DELAY_MSEC    100 // millisecond
+
 
 /*-- Public Data -------------------------------------------------*/
 
@@ -333,7 +335,7 @@ static void update_gatt_db_modem_transreceive(uint8_t *response_p,
             if (remainder > 0) {
                 // if host's BLE handling is slow, we may need to add some delay
                 // before sending the next notification
-                // e.g. msleep(100);
+                cy_rtos_delay_milliseconds(SEND_NOTIFICATION_DELAY_MSEC);
             }
 
         } while(remainder > 0);

@@ -422,7 +422,6 @@ app_gatt_read_by_type_handler(  uint16_t conn_id,
  @param conn_id       Connection ID
  @param opcode        Bluetooth LE GATT request type opcode
  @param p_write_req   Pointer to Bluetooth LE GATT write request
- @param len_requested       length of data requested
 
  @return wiced_bt_gatt_status_t  Bluetooth LE GATT status
  */
@@ -567,6 +566,63 @@ app_gatt_attr_write_handler(uint16_t conn_id,
 
 /*
  Function Name:
+ app_gatt_attr_execute_write_handler
+
+ Function Description:
+ @brief  The function is invoked when GATT_REQ_EXEC_WRITE is received from the
+         client device and is invoked GATT Server Event Callback function. This
+         handles "Execute Write Requests" received from Client device.
+ @param conn_id       Connection ID
+ @param opcode        Bluetooth LE GATT request type opcode
+ @param p_execute_write_req   Pointer to Bluetooth LE GATT execute write request
+
+ @return wiced_bt_gatt_status_t  Bluetooth LE GATT status
+ */
+static wiced_bt_gatt_status_t
+app_gatt_attr_execute_write_handler(uint16_t conn_id,
+                                    wiced_bt_gatt_opcode_t opcode,
+                                    wiced_bt_gatt_execute_write_req_t *p_execute_write_req)
+{
+    CY_LOGD(TAG, "%s [%d]", __FUNCTION__, __LINE__);
+
+#if 1
+    // do nothing
+    wiced_bt_gatt_status_t gatt_status = WICED_BT_GATT_SUCCESS;
+    return gatt_status;
+
+#else
+    // unsure how to handle this
+    wiced_bt_gatt_status_t gatt_status = WICED_BT_GATT_SUCCESS;
+
+    /* Get the right address for the handle in Gatt DB */
+    if (NULL == p_execute_write_req)
+    {
+        CY_LOGE(TAG, "p_execute_write_req is NULL");
+        return WICED_BT_GATT_INVALID_HANDLE;
+    }
+
+    switch (p_execute_write_req->exec_write)
+    {
+        case GATT_PREPARE_WRITE_CANCEL:
+            CY_LOGD(TAG, "GATT_PREPARE_WRITE_CANCEL");
+            break;
+
+        case GATT_PREPARE_WRITE_EXEC:
+            CY_LOGD(TAG, "GATT_PREPARE_WRITE_EXEC");
+            break;
+
+        default:
+            break;
+    }
+
+    gatt_status = wiced_bt_gatt_server_send_execute_write_rsp(conn_id, opcode);
+
+    return (gatt_status);
+#endif
+}
+
+/*
+ Function Name:
  app_gatts_attr_req_handler
 
  Function Description:
@@ -604,10 +660,18 @@ app_gatts_attr_req_handler(wiced_bt_gatt_attribute_request_t *p_attr_req)
         case GATT_REQ_WRITE:
         case GATT_CMD_WRITE:
         case GATT_CMD_SIGNED_WRITE:
-             gatt_status = app_gatt_attr_write_handler(p_attr_req->conn_id,
-                                                       p_attr_req->opcode,
-                                                       &p_attr_req->data.write_req);
-             break;
+            gatt_status = app_gatt_attr_write_handler(p_attr_req->conn_id,
+                                                      p_attr_req->opcode,
+                                                      &p_attr_req->data.write_req);
+            break;
+
+        case GATT_REQ_EXECUTE_WRITE:
+            //CY_LOGD(TAG, "GATT_REQ_EXECUTE_WRITE conn_id: %d, opcode: %d",
+            //        p_attr_req->conn_id, p_attr_req->opcode);
+            gatt_status = app_gatt_attr_execute_write_handler( p_attr_req->conn_id,
+                                                               p_attr_req->opcode,
+                                                               &p_attr_req->data.exec_write_req);
+            break;
 
         case GATT_REQ_MTU:
             /* This is the response for GATT MTU exchange and MTU size is set
