@@ -77,6 +77,10 @@
 #define PUBLISHER_TASK_QUEUE_LENGTH     (3u)
 
 
+/*-- Local Function Prototypes -------------------------------------------------*/
+static void isr_button_press(void *callback_arg, cyhal_gpio_event_t event);
+
+
 /*-- Public Data -------------------------------------------------*/
 
 cy_thread_t g_publisher_task_handle = NULL;
@@ -99,6 +103,12 @@ static cy_mqtt_publish_info_t s_publish_info =
     .dup = false
 };
 
+/* Structure that stores the callback data for the GPIO interrupt event. */
+static cyhal_gpio_callback_data_t s_cb_data =
+{
+    .callback = isr_button_press,
+    .callback_arg = NULL
+};
 
 /*-- Local Functions -------------------------------------------------*/
 
@@ -170,7 +180,10 @@ static void publisher_init(void)
     /* Initialize the user button GPIO and register interrupt on falling edge. */
     cyhal_gpio_init(CYBSP_USER_BTN, CYHAL_GPIO_DIR_INPUT,
                     CYHAL_GPIO_DRIVE_PULLUP, CYBSP_BTN_OFF);
-    cyhal_gpio_register_callback(CYBSP_USER_BTN, isr_button_press, NULL);
+
+    // was cyhal_gpio_register_callback(CYBSP_USER_BTN, isr_button_press, NULL);
+    cyhal_gpio_register_callback(CYBSP_USER_BTN, &s_cb_data);
+
     cyhal_gpio_enable_event(CYBSP_USER_BTN, CYHAL_GPIO_IRQ_FALL,
                             USER_BTN_INTR_PRIORITY, true);
     
@@ -197,7 +210,9 @@ static void publisher_deinit(void)
     CY_LOGD(TAG, "%s [%d]", __FUNCTION__, __LINE__);
 
     /* Deregister the ISR and disable the interrupt on the user button. */
-    cyhal_gpio_register_callback(CYBSP_USER_BTN, NULL, NULL);
+    // was cyhal_gpio_register_callback(CYBSP_USER_BTN, NULL, NULL);
+    cyhal_gpio_register_callback(CYBSP_USER_BTN, NULL);
+
     cyhal_gpio_enable_event(CYBSP_USER_BTN, CYHAL_GPIO_IRQ_FALL,
                             USER_BTN_INTR_PRIORITY, false);
     cyhal_gpio_free(CYBSP_USER_BTN);

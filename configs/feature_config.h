@@ -55,12 +55,17 @@ extern "C"
 
 // core features
 #define FEATURE_PPP                     ENABLE_FEATURE
+#if 0
 #define FEATURE_WIFI                    ENABLE_FEATURE
+#else
+#define FEATURE_WIFI                    DISABLE_FEATURE
+#endif
 #define FEATURE_CONSOLE                 ENABLE_FEATURE
 #define FEATURE_ESIM_LPA_MENU           DISABLE_FEATURE
 #define FEATURE_APPS                    ENABLE_FEATURE
 #define FEATURE_MQTT                    ENABLE_FEATURE
 #define FEATURE_BLE_MODEM               ENABLE_FEATURE
+#define FEATURE_FLASH_EEPROM            DISABLE_FEATURE
 
 // eSIM LPA menu features (only takes effect if FEATURE_ESIM_LPA_MENU is enabled)
 #define FEATURE_ADD_PROFILE             ENABLE_FEATURE

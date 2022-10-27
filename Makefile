@@ -154,7 +154,11 @@ PREBUILD=cp -a .cyignore.$(RTOS) .cyignore
 # Custom post-build commands to run.
 POSTBUILD=
 
-
+# Place the Wi-Fi firmware into external flash
+ifeq ($(TARGET), CY8CPROTO-062S3-4343W)
+DEFINES+=CY_ENABLE_XIP_PROGRAM
+DEFINES+=CY_STORAGE_WIFI_DATA=\".cy_xip\"
+endif
 ################################################################################
 # Paths
 ################################################################################

@@ -1,8 +1,7 @@
 /******************************************************************************
-* File Name:   ppp_config.h
+* File Name:   time_config.h
 *
-* Description: This file contains the configuration macros required for the
-*              PPP connection.
+* Description: This file has timestamp related configuration
 *
 * Related Document: See README.md
 *
@@ -43,30 +42,39 @@
 /*******************************************************************************
  *  Include guard
  ******************************************************************************/
-#ifndef SOURCE_PPP_CONFIG_H_
-#define SOURCE_PPP_CONFIG_H_
+#ifndef SOURCE_TIME_CONFIG_H_
+#define SOURCE_TIME_CONFIG_H_
+
+#include <stdint.h>
+#include <cmsis_gcc.h>  // for __PACKED_STRUCT
 
 /*******************************************************************************
-* Macros
-********************************************************************************/
-/* Cellular Service Provider's Access Point Name to which the modem connects */
-#define PPP_APN                          "move.dataxs.mobi"
+ * Macros
+ ******************************************************************************/
 
-/* Username for PPP authentication */
-#define PPP_AUTH_USERNAME                ""
+/* Configure the timestamp */
+#define DEFAULT_TIMESTAMP_SEC      -461020808L // must be int32_t
 
-/* Password for PPP authentication */
-#define PPP_AUTH_PASSWORD                ""
+#define MIN_TIMESTAMP_SEC          -461020808L // 29-Jun 2021 9:08am GMT or 17:08 SGP
+#define MAX_TIMESTAMP_SEC          (MIN_TIMESTAMP_SEC + 3600*24*365*10) // +10 years
 
-/* LwIP PPP protocol: Password Authentication Protocol (PAP) */
-#define PPP_SECURITY_TYPE                PPPAUTHTYPE_PAP
+/* Configure the timezone */
+#define DEFAULT_TIMEZONE_DIFF       +8
+#define MIN_TIMEZONE_DIFF           -12
+#define MAX_TIMEZONE_DIFF           +14
 
-/* Maximum PPP re-connection limit */
-#define MAX_PPP_CONN_RETRIES             (10u)
+/*******************************************************************************
+ * Structures
+ ******************************************************************************/
 
-/* PPP re-connection time interval in milliseconds */
-#define PPP_CONN_RETRY_INTERVAL_MSEC     (10000)
+/* Structure to store time related info that goes into EEPROM */
+typedef __PACKED_STRUCT
+{
+    int32_t timestamp;    // e.g. -461020808L
+    float timezone_diff;  // e.g. +5.5
+} cy_time_info_t;
 
-#endif /* SOURCE_PPP_CONFIG_H_ */
+
+#endif /* SOURCE_TIME_CONFIG_H_ */
 
 /* [] END OF FILE */
