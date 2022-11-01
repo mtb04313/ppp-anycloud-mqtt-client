@@ -93,6 +93,14 @@ DISABLE_COMPONENTS=
 # by default, or otherwise not found by the build system.
 SOURCES=
 
+MYLWIP=$(SEARCH_lwip)
+
+# LwIP PPP files
+SOURCES+=$(wildcard $(MYLWIP)/src/netif/ppp/*.c)
+
+# LwIP SNTP files
+SOURCES+=$(wildcard $(MYLWIP)/src/apps/sntp/*.c)
+
 # Like SOURCES, but for include directories. Value should be paths to
 # directories (without a leading -I).
 INCLUDES=./configs
