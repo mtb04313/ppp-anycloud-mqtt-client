@@ -1,7 +1,7 @@
 /*******************************************************************************
-* File Name: feature_config.h
+* File Name: app_bt_utils.h
 *
-* Description: This file defines whether features are enabled / disabled
+* Description: This file is the public interface of app_bt_utils.c
 *
 * Related Document: See README.md
 *
@@ -39,8 +39,11 @@
  so agrees to indemnify Cypress against all liability.
 *******************************************************************************/
 
-#ifndef SOURCE_FEATURE_CONFIG_H_
-#define SOURCE_FEATURE_CONFIG_H_
+#ifndef SOURCE_APP_BT_UTILS_H_
+#define SOURCE_APP_BT_UTILS_H_
+
+#include "wiced_bt_dev.h"
+#include "wiced_bt_gatt.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -48,41 +51,28 @@ extern "C"
 #endif
 
 
-/*-- Public Definitions -------------------------------------------------*/
+/*-- Public Definitions -------------------------------------------------*/#define CASE_RETURN_STR(const)          case const: return #const;
 
-#define ENABLE_FEATURE                  1
-#define DISABLE_FEATURE                 2
+#define FROM_BIT16_TO_8(val)            ( (uint8_t)( ( (val) >> 8 ) & 0xff) )
 
-// core features
-#define FEATURE_PPP                     ENABLE_FEATURE
-#if 0
-#define FEATURE_WIFI                    ENABLE_FEATURE
-#else
-#define FEATURE_WIFI                    DISABLE_FEATURE
-#endif
-#define FEATURE_CONSOLE                 ENABLE_FEATURE
-#define FEATURE_ESIM_LPA_MENU           DISABLE_FEATURE
-#define FEATURE_APPS                    ENABLE_FEATURE
-#define FEATURE_MQTT                    ENABLE_FEATURE
-#define FEATURE_BLE_MODEM               ENABLE_FEATURE
-#define FEATURE_FLASH_EEPROM            DISABLE_FEATURE
 
-// eSIM LPA menu features (only takes effect if FEATURE_ESIM_LPA_MENU is enabled)
-#define FEATURE_ADD_PROFILE             ENABLE_FEATURE
-#define FEATURE_ADVANCED_OPTIONS        ENABLE_FEATURE
-#define FEATURE_SWITCH_PROFILE          ENABLE_FEATURE
-#define FEATURE_DELETE_PROFILE          ENABLE_FEATURE
-#define FEATURE_SET_PROFILE_NICKNAME    ENABLE_FEATURE
+/*-- Public Functions -------------------------------------------------*/
+const char *get_btm_event_name(wiced_bt_management_evt_t event);
 
-// unit tests
-#define FEATURE_UNIT_TEST_CURL          DISABLE_FEATURE
-#define FEATURE_UNIT_TEST_ESIM_LPA      DISABLE_FEATURE
-#define FEATURE_UNIT_TEST_RTOS          ENABLE_FEATURE
+const char *get_btm_advert_mode_name(wiced_bt_ble_advert_mode_t mode);
+
+const char *get_gatt_disconn_reason_name(wiced_bt_gatt_disconn_reason_t reason);
+
+const char *get_gatt_status_name(wiced_bt_gatt_status_t status);
+
+void print_bd_address(char *msg, wiced_bt_device_address_t bdaddr);
+
+void print_local_bd_address(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif      /* SOURCE_FEATURE_CONFIG_H_ */
+#endif /* SOURCE_APP_BT_UTILS_H_ */
 
 /* [] END OF FILE */

@@ -1,8 +1,7 @@
 /******************************************************************************
-* File Name:   ppp_config.h
+* File Name:   status_config.h
 *
-* Description: This file contains the configuration macros required for the
-*              PPP connection.
+* Description: This file has status string related configuration
 *
 * Related Document: See README.md
 *
@@ -43,30 +42,16 @@
 /*******************************************************************************
  *  Include guard
  ******************************************************************************/
-#ifndef SOURCE_PPP_CONFIG_H_
-#define SOURCE_PPP_CONFIG_H_
+#ifndef SOURCE_CY_STATUS_CONFIG_H_
+#define SOURCE_CY_STATUS_CONFIG_H_
 
 /*******************************************************************************
-* Macros
-********************************************************************************/
-/* Cellular Service Provider's Access Point Name to which the modem connects */
-#define PPP_APN                          "move.dataxs.mobi"
+ * Macros
+ ******************************************************************************/
 
-/* Username for PPP authentication */
-#define PPP_AUTH_USERNAME                ""
+/* Configure the status string max len */
+#define CY_STATUS_STR_MAX_LEN      40  // limited by the TFT screen size
 
-/* Password for PPP authentication */
-#define PPP_AUTH_PASSWORD                ""
-
-/* LwIP PPP protocol: Password Authentication Protocol (PAP) */
-#define PPP_SECURITY_TYPE                PPPAUTHTYPE_PAP
-
-/* Maximum PPP re-connection limit */
-#define MAX_PPP_CONN_RETRIES             (10u)
-
-/* PPP re-connection time interval in milliseconds */
-#define PPP_CONN_RETRY_INTERVAL_MSEC     (10000)
-
-#endif /* SOURCE_PPP_CONFIG_H_ */
+#endif /* SOURCE_CY_STATUS_CONFIG_H_ */
 
 /* [] END OF FILE */

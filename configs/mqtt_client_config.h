@@ -51,7 +51,7 @@
 
 /***************** MQTT CLIENT CONNECTION CONFIGURATION MACROS *****************/
 /* MQTT Broker/Server address and port used for the MQTT connection. */
-#define MQTT_BROKER_ADDRESS               "MY_MQTT_BROKER_ADDRESS"
+#define MQTT_BROKER_ADDRESS               "a2qabkxxyoigng-ats.iot.ap-southeast-1.amazonaws.com"     //was "MY_MQTT_BROKER_ADDRESS"
 #define MQTT_PORT                         8883
 
 /* Set this macro to 1 if a secure (TLS) connection to the MQTT Broker is  
@@ -167,6 +167,86 @@
 
 /* Configure the below credentials in case of a secure MQTT connection. */
 /* PEM-encoded client certificate */
+#if 1
+#define CLIENT_CERTIFICATE      \
+"-----BEGIN CERTIFICATE-----\n" \
+"MIIDWjCCAkKgAwIBAgIVAOai+9jkiQPezLfziYwnkG9h21r2MA0GCSqGSIb3DQEB\n" \
+"CwUAME0xSzBJBgNVBAsMQkFtYXpvbiBXZWIgU2VydmljZXMgTz1BbWF6b24uY29t\n" \
+"IEluYy4gTD1TZWF0dGxlIFNUPVdhc2hpbmd0b24gQz1VUzAeFw0yMjAyMjgwNjMy\n" \
+"NDBaFw00OTEyMzEyMzU5NTlaMB4xHDAaBgNVBAMME0FXUyBJb1QgQ2VydGlmaWNh\n" \
+"dGUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDnagEITFtG2FFBw4O4\n" \
+"0q1JIOIcpvwQS4YCIYQ2I6bV52rctwXHRnuXg4rt8PcvrMWkp9yAEZzyiQio/6mC\n" \
+"rS49257d5fR3NI9ump5+GwAE8apdvOdaK6l5N4FUqf38Ywcq+kzY1x4npLOf1DXx\n" \
+"F8qOfu6OR1+9+9rGajtbZwE2WsGZwv0NzRJxNCqouMhNjCfw2Z42jTjrv89rd/xV\n" \
+"ycsQH5uMLkKLAoDtVvkLp2v3z4LqMwcl9EDP22r/ZZmk0bktIUYwrqXlfSXy+dhU\n" \
+"x4UjPLJMxhvK0hlsOaJZ29rWsSem9bWm0x7L0ctwd2ndc9MSWhuz8cUhDZKcxwiz\n" \
+"GC5RAgMBAAGjYDBeMB8GA1UdIwQYMBaAFEraKr1yIagbLjX9+pgsHAm57JsHMB0G\n" \
+"A1UdDgQWBBQAl4tRw3BSo2BPVnHR5B1JQgZRYTAMBgNVHRMBAf8EAjAAMA4GA1Ud\n" \
+"DwEB/wQEAwIHgDANBgkqhkiG9w0BAQsFAAOCAQEAWFCscvBpROQ/2qs69e9FOhzL\n" \
+"bZd4IKDAYrIVpxqbmsY/sGbtlH61TO3x+Ccfu/6tP3Xszk1WTQ5wvCspUjNZmNAQ\n" \
+"qNG12uhm6gic8Y0KXycL7LUOF6/qk0MyDZXIadsj2zRpUUdu9gVlo+RZl7JCkHsW\n" \
+"vozVtR56E0H/GMUuixnS/oRjytMX5Q0zPv3/Jw74ZtPCMrRKEHwF0ir5AzoJy4KH\n" \
+"Q7Ohy1s5LjspZuwkQ3S89dPWdkUhYCwAgOJp2f/fHjvrbwxrQvbr/wM//ZFzibmg\n" \
+"5v0JeHFnDQB+czu/I83tn5oQdOtoGAqXdi4PUpzfDahLtsS6izmjBBRv1C49jg==\n" \
+"-----END CERTIFICATE-----"
+
+
+/* PEM-encoded client private key */
+#define CLIENT_PRIVATE_KEY          \
+"-----BEGIN RSA PRIVATE KEY-----\n" \
+"MIIEpAIBAAKCAQEA52oBCExbRthRQcODuNKtSSDiHKb8EEuGAiGENiOm1edq3LcF\n" \
+"x0Z7l4OK7fD3L6zFpKfcgBGc8okIqP+pgq0uPdue3eX0dzSPbpqefhsABPGqXbzn\n" \
+"WiupeTeBVKn9/GMHKvpM2NceJ6Szn9Q18RfKjn7ujkdfvfvaxmo7W2cBNlrBmcL9\n" \
+"Dc0ScTQqqLjITYwn8NmeNo0467/Pa3f8VcnLEB+bjC5CiwKA7Vb5C6dr98+C6jMH\n" \
+"JfRAz9tq/2WZpNG5LSFGMK6l5X0l8vnYVMeFIzyyTMYbytIZbDmiWdva1rEnpvW1\n" \
+"ptMey9HLcHdp3XPTElobs/HFIQ2SnMcIsxguUQIDAQABAoIBABv7yJYtTZhajjDq\n" \
+"qKIP7954+H7IfpCl4VWeofM+Cm2xZ027YBqB3m4q/QDa87kzJk9L8TEXcCgwA/kT\n" \
+"uXbQ5FecmDBzH0XO+E1Cq0nKkA0JADYHot5Xi03aNWx8hfcgLny2+dX65W2b0BDS\n" \
+"w5cc7mSe2tAft2cs7n6x1+2sngvpYLUnELjGWU3uh17qzUNeQqvqT1iJP/k/z3El\n" \
+"gXHEseIXREud+fHGAN9bhf7Tr24d4GyzUSMcAa1iWNv6pTNcNOp3ku3fO2N0stt0\n" \
+"pFoeYHezpvUfdh8jH+KoZvxBfWidafq28pZrXR/zwAJsSYLE9gx0b5OZwLk9DztK\n" \
+"mwLsAkUCgYEA/oiwCNu+VjXzlcFmTlYT2FbVIBFdKSrncvdNl/4XBu59a6tXrVID\n" \
+"HyQqkKRMF8pF7dt3+cXTvLMI/6gsPbUVuHNicB5cE83iGN7vkpIiXuXLxYtJ6woU\n" \
+"fS9kTnL1pbKwtnfyTaxdK+vPYCZkjDtf+LqSVh4Q67Bk01+Aoe78LesCgYEA6L85\n" \
+"2b6jIchS/Ag7snV3Z7nmqzZzVPZQNvOaG7/OTKZs+MX8W+ztE+RcE06GtAbca+rZ\n" \
+"vsTXtlz5f3RxG6dUn/Tw1AWnlVUjx2VlFP2jjC9q9bYBC0topzIAqEm7B47VO+l/\n" \
+"/QtKxklzMIZfnpN+ZL9DVEQTrv6SknTPEKEwebMCgYBW15v36cFO+Kla9tlI8OVk\n" \
+"cnvUrRfz68d72hSHPxHsM4JnMdaAM/MMtPIw111+4Gxrcu3EMlLDlvIDCAXQJ/B5\n" \
+"NiTny/PubdguVCG5CFLhvdWAWL2ni5DiBUFb4q0dE5JnLxVkmuJPEe13CKJVlgxw\n" \
+"eHdlGmz7fPtpgrQIi9lOcQKBgQDMfC2sdARJSwI1sloYmYG13SufYzCDBgFFtlLA\n" \
+"bI0o5NM64l+suAU3A9wtjkFk694+5lA2fiTzcM43v6scW7BK9N2dufYZinrr1daw\n" \
+"UYOeR47Wn/hc3vzsYE8Zi+XJZyFLCQRM4t3oRmHw0S4zWWyjwTK7VzBgAAPwrrW5\n" \
+"65R2ZwKBgQDqkXOZuLLrAMJvfimys7KrlnoCuVBOUOzhk85RHgNsxAz59DoEIjID\n" \
+"M8i75ERSxe4Ik/+i5zHEgtMKaQ6oLnFYBYKEKZ75yQDXLjU4LuaHCbCB/YusPNFm\n" \
+"JLJsBR2YdvagxNtkD7c30M7Z73mTn417Gh8k5ICOFPiNGmNstyu3dQ==\n" \
+"-----END RSA PRIVATE KEY-----"
+
+
+/* PEM-encoded Root CA certificate */
+// AmazonRootCA1.pem.txt
+#define ROOT_CA_CERTIFICATE     \
+"-----BEGIN CERTIFICATE-----\n" \
+"MIIDQTCCAimgAwIBAgITBmyfz5m/jAo54vB4ikPmljZbyjANBgkqhkiG9w0BAQsF\n" \
+"ADA5MQswCQYDVQQGEwJVUzEPMA0GA1UEChMGQW1hem9uMRkwFwYDVQQDExBBbWF6\n" \
+"b24gUm9vdCBDQSAxMB4XDTE1MDUyNjAwMDAwMFoXDTM4MDExNzAwMDAwMFowOTEL\n" \
+"MAkGA1UEBhMCVVMxDzANBgNVBAoTBkFtYXpvbjEZMBcGA1UEAxMQQW1hem9uIFJv\n" \
+"b3QgQ0EgMTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJ4gHHKeNXj\n" \
+"ca9HgFB0fW7Y14h29Jlo91ghYPl0hAEvrAIthtOgQ3pOsqTQNroBvo3bSMgHFzZM\n" \
+"9O6II8c+6zf1tRn4SWiw3te5djgdYZ6k/oI2peVKVuRF4fn9tBb6dNqcmzU5L/qw\n" \
+"IFAGbHrQgLKm+a/sRxmPUDgH3KKHOVj4utWp+UhnMJbulHheb4mjUcAwhmahRWa6\n" \
+"VOujw5H5SNz/0egwLX0tdHA114gk957EWW67c4cX8jJGKLhD+rcdqsq08p8kDi1L\n" \
+"93FcXmn/6pUCyziKrlA4b9v7LWIbxcceVOF34GfID5yHI9Y/QCB/IIDEgEw+OyQm\n" \
+"jgSubJrIqg0CAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\n" \
+"AYYwHQYDVR0OBBYEFIQYzIU07LwMlJQuCFmcx7IQTgoIMA0GCSqGSIb3DQEBCwUA\n" \
+"A4IBAQCY8jdaQZChGsV2USggNiMOruYou6r4lK5IpDB/G/wkjUu0yKGX9rbxenDI\n" \
+"U5PMCCjjmCXPI6T53iHTfIUJrU6adTrCC2qJeHZERxhlbI1Bjjt/msv0tadQ1wUs\n" \
+"N+gDS63pYaACbvXy8MWy7Vu33PqUXHeeE6V/Uq2V8viTO96LXFvKWlJbYK8U90vv\n" \
+"o/ufQJVtMVT8QtPHRh8jrdkPSHCa2XV4cdFyQzR1bldZwgJcJmApzyMZFo6IQ6XU\n" \
+"5MsI+yMRQ+hDKXJioaldXgjUkK642M4UwtBV8ob2xJNDd2ZhwLnoQdeXeGADbkpy\n" \
+"rqXRfboQnoZsG4q5WTP468SQvvG5\n" \
+"-----END CERTIFICATE-----"
+
+#else
 #define CLIENT_CERTIFICATE      \
 "-----BEGIN CERTIFICATE-----\n" \
 "........base64 data........\n" \
@@ -183,6 +263,7 @@
 "-----BEGIN CERTIFICATE-----\n" \
 "........base64 data........\n" \
 "-----END CERTIFICATE-----"
+#endif
 
 /******************************************************************************
 * Global Variables

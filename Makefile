@@ -64,6 +64,7 @@ CONFIG=Debug
 
 # If set to "true" or "1", display full command-lines when building.
 VERBOSE=
+#VERBOSE=true
 
 ################################################################################
 # Advanced Configuration
@@ -81,7 +82,7 @@ VERBOSE=
 #
 RTOS= FREERTOS
 #RTOS= RTTHREAD
-COMPONENTS=$(RTOS) LWIP MBEDTLS SECURE_SOCKETS RTOS_AWARE 
+COMPONENTS=$(RTOS) LWIP MBEDTLS SECURE_SOCKETS WICED_BLE RTOS_AWARE 
 
 # Like COMPONENTS, but disable optional code that was enabled by default.
 DISABLE_COMPONENTS=
@@ -91,6 +92,14 @@ DISABLE_COMPONENTS=
 # manually add source code to the build process from a location not searched
 # by default, or otherwise not found by the build system.
 SOURCES=
+
+MYLWIP=$(SEARCH_lwip)
+
+# LwIP PPP files
+SOURCES+=$(wildcard $(MYLWIP)/src/netif/ppp/*.c)
+
+# LwIP SNTP files
+SOURCES+=$(wildcard $(MYLWIP)/src/apps/sntp/*.c)
 
 # Like SOURCES, but for include directories. Value should be paths to
 # directories (without a leading -I).
@@ -153,7 +162,11 @@ PREBUILD=cp -a .cyignore.$(RTOS) .cyignore
 # Custom post-build commands to run.
 POSTBUILD=
 
-
+# Place the Wi-Fi firmware into external flash
+ifeq ($(TARGET), CY8CPROTO-062S3-4343W)
+DEFINES+=CY_ENABLE_XIP_PROGRAM
+DEFINES+=CY_STORAGE_WIFI_DATA=\".cy_xip\"
+endif
 ################################################################################
 # Paths
 ################################################################################

@@ -69,8 +69,6 @@ extern cy_thread_t g_ppp_task_handle;
 /*******************************************************************************
 * Function Prototype
 ********************************************************************************/
-//bool modem_power_button_init(void);
-bool ppp_modem_init(void);
 
 void ppp_task(cy_thread_arg_t arg);
 

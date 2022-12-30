@@ -86,6 +86,7 @@
 /*-- Local Definitions -------------------------------------------------*/
 
 #define WIFI_INTERFACE_TYPE                      CY_WCM_INTERFACE_TYPE_STA
+#define PROMPT_USER_TO_START_IO                  1
 
 
 /*-- Public Data -------------------------------------------------*/
@@ -143,6 +144,7 @@ static cy_rslt_t connect_to_ppp(void)
     /* Join the network. */
     for (uint32_t conn_retries = 0; conn_retries < MAX_PPP_CONN_RETRIES; conn_retries++ ) {
 
+#if PROMPT_USER_TO_START_IO
         // Ask the user whether to connect to PPP
         // (This is useful if the eSIM profile is a test or terminated profile,
         //  which will always fail to connect)
@@ -164,6 +166,7 @@ static cy_rslt_t connect_to_ppp(void)
                 return CY_RSLT_PCM_FAILED;
             }
         }
+#endif
 
         result = cy_pcm_connect_modem(&ppp_conn_param,
                                       &ip_address,
@@ -224,7 +227,7 @@ static cy_rslt_t connect_to_ppp(void)
                 CY_LOGE(TAG, "IP address is not valid!");
                 s_ppp_status = COMMON_STATUS_STOPPING;
 
-                result = cy_pcm_disconnect_modem(CY_RTOS_NEVER_TIMEOUT);
+                result = cy_pcm_disconnect_modem(CY_RTOS_NEVER_TIMEOUT, true);
                 if (result != CY_RSLT_SUCCESS) {
                     CY_LOGD(TAG, "cy_pcm_disconnect_modem failed!");
 
@@ -252,11 +255,6 @@ static cy_rslt_t connect_to_ppp(void)
 
 
 /*-- Public Functions -------------------------------------------------*/
-
-bool ppp_modem_init(void)
-{
-    return cy_modem_init();
-}
 
 void ppp_task(cy_thread_arg_t arg)
 {
@@ -327,7 +325,7 @@ void ppp_task(cy_thread_arg_t arg)
                 if (s_ppp_connected) {
                     s_ppp_status = COMMON_STATUS_STOPPING;
 
-                    result = cy_pcm_disconnect_modem(CY_RTOS_NEVER_TIMEOUT);
+                    result = cy_pcm_disconnect_modem(CY_RTOS_NEVER_TIMEOUT, true);
                     if (result != CY_RSLT_SUCCESS) {
                         CY_LOGD(TAG, "cy_pcm_disconnect_modem failed!");
 

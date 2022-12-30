@@ -44,6 +44,7 @@
 #define SOURCE_ATMODEM_CONFIG_H_
 
 #include "cy_atmodem_hw.h"
+#include "cycfg_pins.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,19 +52,69 @@ extern "C" {
 
 /* modem model */
 //#define ATMODEM_HW                ATMODEM_HW_MURATA_1SC
-#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
-
+//#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
+//#define ATMODEM_HW                ATMODEM_HW_QUECTEL_BG96
+//#define ATMODEM_HW                ATMODEM_HW_SIMCOM_A7670E
+#define ATMODEM_HW                ATMODEM_HW_UBLOX_LARA_R280
+//#define ATMODEM_HW                ATMODEM_HW_UBLOX_SARA_U201
+//#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7000G
+//#define ATMODEM_HW                ATMODEM_HW_UBLOX_SARA_R412M
+//#define ATMODEM_HW                ATMODEM_HW_CINTERION_EXS62W
 
 /* hardware pins */
-#define ATMODEM_HW_PIN_UART_RX      P5_4  // use (P13_4) for 62S2 Pioneer Kit // use (P5_4) for WIFI-BT Protyping Kit
+#if defined (TARGET_CY8CEVAL_062S2_LAI_4373M2) // CY8CEVAL Eval Kit
 
-#define ATMODEM_HW_PIN_UART_TX      P5_5  // use (P13_5) for 62S2 Pioneer Kit // use (P5_5) for WIFI-BT Protyping Kit
+#define ATMODEM_HW_PIN_UART_RX      CYBSP_MIKROBUS_UART_RX
 
-#if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
-#define ATMODEM_HW_PIN_IO_REF       P5_6  // needed for ATMODEM_HW_MURATA_1SC
+#define ATMODEM_HW_PIN_UART_TX      CYBSP_MIKROBUS_UART_TX
+
+#if (ATMODEM_HW == ATMODEM_HW_CINTERION_EXS62W)
+#define ATMODEM_HW_PIN_UART_RTS     CYBSP_MIKROBUS_INT
+#else
+#define ATMODEM_HW_PIN_UART_RTS     CYBSP_MIKROBUS_SPI_CS
 #endif
 
-#define ATMODEM_HW_PIN_POWER_KEY    P5_7  // use (P8_0) for 62S2 Pioneer Kit // use (P5_7) for WIFI-BT Protyping Kit
+#if (ATMODEM_HW == ATMODEM_HW_UBLOX_SARA_R412M)
+#define ATMODEM_HW_PIN_POWER_KEY    CYBSP_MIKROBUS_AN
+#else
+#define ATMODEM_HW_PIN_POWER_KEY    CYBSP_MIKROBUS_RST
+#endif
+
+#if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
+#define ATMODEM_HW_PIN_IO_REF       CYBSP_MIKROBUS_PWM  // ATMODEM_HW_MURATA_1SC on CY8CEVAL Kit
+#endif
+
+#elif defined (TARGET_CY8CKIT_062S2_43012) // 62S2 Pioneer Kit
+
+#define ATMODEM_HW_PIN_UART_RX      (P13_4)
+
+#define ATMODEM_HW_PIN_UART_TX      (P13_5)
+
+#undef ATMODEM_HW_PIN_UART_RTS     // not needed (connect to GND)
+
+#define ATMODEM_HW_PIN_POWER_KEY    (P8_0)
+
+#if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
+#undef ATMODEM_HW_PIN_IO_REF       // not needed ? REVISIT
+#endif
+
+#elif defined (TARGET_CY8CPROTO_062_4343W) // WIFI-BT Prototyping Kit
+
+#define ATMODEM_HW_PIN_UART_RX      (P5_4)
+
+#define ATMODEM_HW_PIN_UART_TX      (P5_5)
+
+#undef ATMODEM_HW_PIN_UART_RTS     // not needed (connect to GND)
+
+#define ATMODEM_HW_PIN_POWER_KEY    (P5_7)
+
+#if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
+#define ATMODEM_HW_PIN_IO_REF       P5_6  // ATMODEM_HW_MURATA_1SC on WIFI-BT Prototyping Kit
+#endif
+
+#else
+#pragma GCC error "Unsupported TARGET board: " __FILE__
+#endif
 
 
 #ifdef __cplusplus

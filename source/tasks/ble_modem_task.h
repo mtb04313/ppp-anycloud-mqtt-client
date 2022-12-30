@@ -1,7 +1,7 @@
 /*******************************************************************************
-* File Name: feature_config.h
+* File Name: ble_modem_task.h
 *
-* Description: This file defines whether features are enabled / disabled
+* Description: This file is the public interface of ble_modem_task.c
 *
 * Related Document: See README.md
 *
@@ -39,8 +39,10 @@
  so agrees to indemnify Cypress against all liability.
 *******************************************************************************/
 
-#ifndef SOURCE_FEATURE_CONFIG_H_
-#define SOURCE_FEATURE_CONFIG_H_
+#ifndef SOURCE_BLE_MODEM_TASK_H_
+#define SOURCE_BLE_MODEM_TASK_H_
+
+#include "cyabs_rtos.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -50,39 +52,25 @@ extern "C"
 
 /*-- Public Definitions -------------------------------------------------*/
 
-#define ENABLE_FEATURE                  1
-#define DISABLE_FEATURE                 2
+#define BLE_MODEM_TASK_STACK_SIZE  (5 * 1024)
+#define BLE_MODEM_TASK_PRIORITY    CY_RTOS_PRIORITY_LOW
+#define BLE_MODEM_TASK_NAME        "ble_modem task"
 
-// core features
-#define FEATURE_PPP                     ENABLE_FEATURE
-#if 0
-#define FEATURE_WIFI                    ENABLE_FEATURE
-#else
-#define FEATURE_WIFI                    DISABLE_FEATURE
-#endif
-#define FEATURE_CONSOLE                 ENABLE_FEATURE
-#define FEATURE_ESIM_LPA_MENU           DISABLE_FEATURE
-#define FEATURE_APPS                    ENABLE_FEATURE
-#define FEATURE_MQTT                    ENABLE_FEATURE
-#define FEATURE_BLE_MODEM               ENABLE_FEATURE
-#define FEATURE_FLASH_EEPROM            DISABLE_FEATURE
 
-// eSIM LPA menu features (only takes effect if FEATURE_ESIM_LPA_MENU is enabled)
-#define FEATURE_ADD_PROFILE             ENABLE_FEATURE
-#define FEATURE_ADVANCED_OPTIONS        ENABLE_FEATURE
-#define FEATURE_SWITCH_PROFILE          ENABLE_FEATURE
-#define FEATURE_DELETE_PROFILE          ENABLE_FEATURE
-#define FEATURE_SET_PROFILE_NICKNAME    ENABLE_FEATURE
+/*-- Public Data -------------------------------------------------*/
 
-// unit tests
-#define FEATURE_UNIT_TEST_CURL          DISABLE_FEATURE
-#define FEATURE_UNIT_TEST_ESIM_LPA      DISABLE_FEATURE
-#define FEATURE_UNIT_TEST_RTOS          ENABLE_FEATURE
+extern cy_thread_t g_ble_modem_task_handle;
+
+
+/*-- Public Functions -------------------------------------------------*/
+
+void ble_modem_task(void *arg);
+
+void ble_modem_task_notify( uint32_t msg_id,
+                            bool in_isr);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif      /* SOURCE_FEATURE_CONFIG_H_ */
-
-/* [] END OF FILE */
+#endif /* SOURCE_BLE_MODEM_TASK_H_ */

@@ -1,7 +1,7 @@
 /*******************************************************************************
-* File Name: feature_config.h
+* File Name: app_bt_gatt_handler.h
 *
-* Description: This file defines whether features are enabled / disabled
+* Description: This file is the public interface of app_bt_gatt_handler.c
 *
 * Related Document: See README.md
 *
@@ -39,50 +39,60 @@
  so agrees to indemnify Cypress against all liability.
 *******************************************************************************/
 
-#ifndef SOURCE_FEATURE_CONFIG_H_
-#define SOURCE_FEATURE_CONFIG_H_
+#ifndef SOURCE_APP_BT_GATT_HANDLER_H_
+#define SOURCE_APP_BT_GATT_HANDLER_H_
+
+#include "wiced_bt_gatt.h"
+#include "cybsp_types.h"
+#include "GeneratedSource/cycfg_pins.h"
+#include "GeneratedSource/cycfg_gap.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-
 /*-- Public Definitions -------------------------------------------------*/
 
-#define ENABLE_FEATURE                  1
-#define DISABLE_FEATURE                 2
+/* Default MTU size */
+#define DEFAULT_GATT_MTU_SIZE               23
 
-// core features
-#define FEATURE_PPP                     ENABLE_FEATURE
-#if 0
-#define FEATURE_WIFI                    ENABLE_FEATURE
-#else
-#define FEATURE_WIFI                    DISABLE_FEATURE
-#endif
-#define FEATURE_CONSOLE                 ENABLE_FEATURE
-#define FEATURE_ESIM_LPA_MENU           DISABLE_FEATURE
-#define FEATURE_APPS                    ENABLE_FEATURE
-#define FEATURE_MQTT                    ENABLE_FEATURE
-#define FEATURE_BLE_MODEM               ENABLE_FEATURE
-#define FEATURE_FLASH_EEPROM            DISABLE_FEATURE
+/**
+ * wiced_bt_gatt_server_send_notification() will send a long (1 up to (MTU -3) bytes)
+ * notification to the client
+ */
+#define GATT_NOTIFICATION_RESERVED_SIZE     3
 
-// eSIM LPA menu features (only takes effect if FEATURE_ESIM_LPA_MENU is enabled)
-#define FEATURE_ADD_PROFILE             ENABLE_FEATURE
-#define FEATURE_ADVANCED_OPTIONS        ENABLE_FEATURE
-#define FEATURE_SWITCH_PROFILE          ENABLE_FEATURE
-#define FEATURE_DELETE_PROFILE          ENABLE_FEATURE
-#define FEATURE_SET_PROFILE_NICKNAME    ENABLE_FEATURE
+enum sub_task_notifications
+{
+  NOTIF_RESTART_BT_ADVERT,
+  NOTIF_GATT_DB_MODEM_OPEN,
+  NOTIF_GATT_DB_MODEM_CLOSE,
+  NOTIF_GATT_DB_MODEM_TRANSRECEIVE,
+};
 
-// unit tests
-#define FEATURE_UNIT_TEST_CURL          DISABLE_FEATURE
-#define FEATURE_UNIT_TEST_ESIM_LPA      DISABLE_FEATURE
-#define FEATURE_UNIT_TEST_RTOS          ENABLE_FEATURE
+
+/*-- Public Data -------------------------------------------------*/
+
+/* A Global variable to check the status of this device if it is
+ * connected to any peer devices*/
+extern uint16_t g_conn_id;
+
+/* Maintains the MTU size of the current connection */
+extern uint16_t g_mtu;
+
+
+/*-- Public Functions -------------------------------------------------*/
+
+bool ble_init(void);
+
+gatt_db_lookup_table_t * app_get_attribute(uint16_t handle);
+
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif      /* SOURCE_FEATURE_CONFIG_H_ */
+#endif /* SOURCE_APP_BT_GATT_HANDLER_H_ */
 
 /* [] END OF FILE */
