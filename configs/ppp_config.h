@@ -46,6 +46,11 @@
 #ifndef SOURCE_PPP_CONFIG_H_
 #define SOURCE_PPP_CONFIG_H_
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*******************************************************************************
 * Macros
 ********************************************************************************/
@@ -66,6 +71,10 @@
 
 /* PPP re-connection time interval in milliseconds */
 #define PPP_CONN_RETRY_INTERVAL_MSEC     (10000)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SOURCE_PPP_CONFIG_H_ */
 

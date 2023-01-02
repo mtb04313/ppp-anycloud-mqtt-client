@@ -95,5 +95,4 @@ const char* get_wifi_status(void);
 
 #endif      /* SOURCE_WIFI_TASK_H_ */
 
-
 /* [] END OF FILE */

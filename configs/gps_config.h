@@ -39,11 +39,16 @@
 * so agrees to indemnify Cypress against all liability.
 *******************************************************************************/
 
-#ifndef GPS_CONFIG_H_
-#define GPS_CONFIG_H_
+#ifndef SOURCE_GPS_CONFIG_H_
+#define SOURCE_GPS_CONFIG_H_
 
 #include <stdint.h>
 #include <cmsis_gcc.h>  // for __PACKED_STRUCT
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 /* Configure the GPS coordinates */
 //#define DEFAULT_GPS_COORDS        "0119.378145,N,10352.147261,E"
@@ -58,4 +63,10 @@ typedef __PACKED_STRUCT
   uint8_t len;
 } ifx_gps_info_t;
 
-#endif /* GPS_CONFIG_H_ */
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* SOURCE_GPS_CONFIG_H_ */
+
+/* [] END OF FILE */

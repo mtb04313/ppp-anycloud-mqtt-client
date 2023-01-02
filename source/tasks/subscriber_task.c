@@ -229,6 +229,8 @@ void mqtt_subscription_callback(cy_mqtt_publish_info_t *received_msg_info)
  ******************************************************************************/
 static void unsubscribe_from_topic(void)
 {
+    CY_LOGD(TAG, "%s [%d]", __FUNCTION__, __LINE__);
+
     cy_rslt_t result = cy_mqtt_unsubscribe(g_mqtt_connection,
                                            (cy_mqtt_unsubscribe_info_t *) &s_subscribe_info,
                                            SUBSCRIPTION_COUNT);
