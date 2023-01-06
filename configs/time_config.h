@@ -48,6 +48,11 @@
 #include <stdint.h>
 #include <cmsis_gcc.h>  // for __PACKED_STRUCT
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*******************************************************************************
  * Macros
  ******************************************************************************/
@@ -74,6 +79,9 @@ typedef __PACKED_STRUCT
     float timezone_diff;  // e.g. +5.5
 } cy_time_info_t;
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SOURCE_TIME_CONFIG_H_ */
 

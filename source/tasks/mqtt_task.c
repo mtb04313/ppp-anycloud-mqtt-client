@@ -62,7 +62,7 @@
 /* Middleware libraries */
 #include "cy_retarget_io.h"
 #include "cy_wcm.h"
-#include "cy_lwip.h"
+//#include "cy_lwip.h"
 
 #include "cy_mqtt_api.h"
 #include "clock.h"
@@ -115,7 +115,7 @@
 /*-- Public Data -------------------------------------------------*/
 
 /* MQTT connection handle. */
-cy_mqtt_t g_mqtt_connection;
+cy_mqtt_t g_mqtt_connection = NULL;
 
 cy_thread_t g_mqtt_task_handle = NULL;
 
@@ -295,6 +295,7 @@ static void mqtt_cleanup(void)
     /* Delete the MQTT instance if it was created. */
     if (s_status_flag & MQTT_INSTANCE_CREATED) {
         cy_mqtt_delete(g_mqtt_connection);
+        g_mqtt_connection = NULL;
     }
     /* Deallocate the network buffer. */
     if (s_status_flag & BUFFER_INITIALIZED) {
@@ -368,10 +369,10 @@ static cy_rslt_t mqtt_connect(void)
 
     /* Configure the user credentials as a part of MQTT Connect packet */
     if (strlen(MQTT_USERNAME) > 0) {
-        connection_info.username = MQTT_USERNAME;
-        connection_info.password = MQTT_PASSWORD;
-        connection_info.username_len = sizeof(MQTT_USERNAME) - 1;
-        connection_info.password_len = sizeof(MQTT_PASSWORD) - 1;
+        g_mqtt_connection_info.username = MQTT_USERNAME;
+        g_mqtt_connection_info.password = MQTT_PASSWORD;
+        g_mqtt_connection_info.username_len = sizeof(MQTT_USERNAME) - 1;
+        g_mqtt_connection_info.password_len = sizeof(MQTT_PASSWORD) - 1;
     }
 
     /* Generate a unique client identifier with 'MQTT_CLIENT_IDENTIFIER' string
@@ -383,12 +384,12 @@ static cy_rslt_t mqtt_connect(void)
 #endif /* GENERATE_UNIQUE_CLIENT_ID */
 
     /* Set the client identifier buffer and length. */
-    connection_info.client_id = mqtt_client_identifier;
-    connection_info.client_id_len = strlen(mqtt_client_identifier);
+    g_mqtt_connection_info.client_id = mqtt_client_identifier;
+    g_mqtt_connection_info.client_id_len = strlen(mqtt_client_identifier);
 
     CY_LOGD(TAG, "MQTT client '%.*s' connecting to MQTT broker '%.*s'...\n",
-           connection_info.client_id_len,
-           connection_info.client_id,
+           g_mqtt_connection_info.client_id_len,
+           g_mqtt_connection_info.client_id,
            broker_info.hostname_len,
            broker_info.hostname);
 
@@ -444,7 +445,7 @@ static cy_rslt_t mqtt_connect(void)
             // wait until PPP is available, otherwise wait until WIFI is avail
 
             /* Establish the MQTT connection. */
-            result = cy_mqtt_connect(g_mqtt_connection, &connection_info);
+            result = cy_mqtt_connect(g_mqtt_connection, &g_mqtt_connection_info);
 
             if (result == CY_RSLT_SUCCESS) {
                 CY_LOGD(TAG, "MQTT connection successful on %s.\n",
@@ -465,8 +466,6 @@ static cy_rslt_t mqtt_connect(void)
                    MQTT_CONN_RETRY_INTERVAL_MS,
                    (int)(MAX_MQTT_CONN_RETRIES - retry_count - 1));
         }
-
-        //cy_rtos_delay_milliseconds(MQTT_CONN_RETRY_INTERVAL_MS);
     }
 
     CY_LOGD(TAG, "Exceeded %d MQTT connection attempts", MAX_MQTT_CONN_RETRIES);

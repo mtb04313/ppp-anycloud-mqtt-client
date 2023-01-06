@@ -70,8 +70,8 @@
  *
  ******************************************************************************/
 
-#ifndef FREERTOS_CONFIG_H
-#define FREERTOS_CONFIG_H
+#ifndef SOURCE_FREERTOS_CONFIG_H_
+#define SOURCE_FREERTOS_CONFIG_H_
 
 /*-----------------------------------------------------------
  * Application specific definitions.
@@ -94,6 +94,11 @@
  * CY_CFG_PWR_DEEPSLEEP_LATENCY - Deep Sleep Latency (ms)
  */
 #include "cycfg_system.h"
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 #define configUSE_PREEMPTION                    1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION 0
@@ -273,4 +278,10 @@ extern void vApplicationSleep( uint32_t xExpectedIdleTime );
  */
 #define configUSE_NEWLIB_REENTRANT              1
 
-#endif /* FREERTOS_CONFIG_H */
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* SOURCE_FREERTOS_CONFIG_H_ */
+
+/* [] END OF FILE */

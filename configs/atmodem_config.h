@@ -52,17 +52,17 @@ extern "C" {
 
 /* modem model */
 //#define ATMODEM_HW                ATMODEM_HW_MURATA_1SC
-//#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
+#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
 //#define ATMODEM_HW                ATMODEM_HW_QUECTEL_BG96
 //#define ATMODEM_HW                ATMODEM_HW_SIMCOM_A7670E
-#define ATMODEM_HW                ATMODEM_HW_UBLOX_LARA_R280
+//#define ATMODEM_HW                ATMODEM_HW_UBLOX_LARA_R280
 //#define ATMODEM_HW                ATMODEM_HW_UBLOX_SARA_U201
 //#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7000G
 //#define ATMODEM_HW                ATMODEM_HW_UBLOX_SARA_R412M
 //#define ATMODEM_HW                ATMODEM_HW_CINTERION_EXS62W
 
 /* hardware pins */
-#if defined (TARGET_CY8CEVAL_062S2_LAI_4373M2) // CY8CEVAL Eval Kit
+#if defined (TARGET_APP_CY8CEVAL_062S2_LAI_4373M2) // CY8CEVAL Eval Kit
 
 #define ATMODEM_HW_PIN_UART_RX      CYBSP_MIKROBUS_UART_RX
 
@@ -84,7 +84,7 @@ extern "C" {
 #define ATMODEM_HW_PIN_IO_REF       CYBSP_MIKROBUS_PWM  // ATMODEM_HW_MURATA_1SC on CY8CEVAL Kit
 #endif
 
-#elif defined (TARGET_CY8CKIT_062S2_43012) // 62S2 Pioneer Kit
+#elif defined (TARGET_APP_CY8CKIT_062S2_43012) // 62S2 Pioneer Kit
 
 #define ATMODEM_HW_PIN_UART_RX      (P13_4)
 
@@ -98,7 +98,7 @@ extern "C" {
 #undef ATMODEM_HW_PIN_IO_REF       // not needed ? REVISIT
 #endif
 
-#elif defined (TARGET_CY8CPROTO_062_4343W) // WIFI-BT Prototyping Kit
+#elif defined (TARGET_APP_CY8CPROTO_062_4343W) // WIFI-BT Prototyping Kit
 
 #define ATMODEM_HW_PIN_UART_RX      (P5_4)
 
@@ -122,3 +122,5 @@ extern "C" {
 #endif
 
 #endif /* SOURCE_ATMODEM_CONFIG_H_ */
+
+/* [] END OF FILE */

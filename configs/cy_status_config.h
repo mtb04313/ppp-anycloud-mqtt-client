@@ -45,12 +45,21 @@
 #ifndef SOURCE_CY_STATUS_CONFIG_H_
 #define SOURCE_CY_STATUS_CONFIG_H_
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 /*******************************************************************************
  * Macros
  ******************************************************************************/
 
 /* Configure the status string max len */
 #define CY_STATUS_STR_MAX_LEN      40  // limited by the TFT screen size
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SOURCE_CY_STATUS_CONFIG_H_ */
 

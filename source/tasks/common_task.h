@@ -99,5 +99,4 @@ const char* get_common_status_str(int status);
 
 #endif      /* SOURCE_COMMON_TASK_H_ */
 
-
 /* [] END OF FILE */

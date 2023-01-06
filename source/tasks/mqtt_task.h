@@ -57,7 +57,7 @@ extern "C"
 * Macros
 ********************************************************************************/
 /* Task parameters for MQTT Client Task. */
-#define MQTT_CLIENT_TASK_NAME           "MQTT task" // was "MQTT Client task"
+#define MQTT_CLIENT_TASK_NAME           "MQTT task"
 #define MQTT_CLIENT_TASK_PRIORITY       CY_RTOS_PRIORITY_BELOWNORMAL
 #define MQTT_CLIENT_TASK_STACK_SIZE     (1024 * 4)
 

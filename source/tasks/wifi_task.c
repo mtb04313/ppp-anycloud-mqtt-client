@@ -84,7 +84,7 @@ static common_status_t s_wifi_status = COMMON_STATUS_STOPPED;
 /*-- Local Functions -------------------------------------------------*/
 
 #if (FEATURE_WIFI == ENABLE_FEATURE)
-/* WIFI SSID and Password defined in network_credentials.h */
+/* WIFI SSID and Password defined in wifi_config.h */
 static cy_rslt_t connect_to_wifi_ap(void)
 {
     cy_rslt_t result;
@@ -261,7 +261,6 @@ void wifi_task(cy_thread_arg_t arg)
                 repeat = true;
             }
         } while (repeat);
-
 
         if (NOTIF_SHUTDOWN_IO == ulNotifiedValue) {
             break;  // end task

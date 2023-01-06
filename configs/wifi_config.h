@@ -40,10 +40,15 @@
 * so agrees to indemnify Cypress against all liability.
 *******************************************************************************/
 
-#ifndef WIFI_CONFIG_H_
-#define WIFI_CONFIG_H_
+#ifndef SOURCE_WIFI_CONFIG_H_
+#define SOURCE_WIFI_CONFIG_H_
 
 #include "cy_wcm.h"
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 /*******************************************************************************
 * Macros
@@ -65,4 +70,10 @@
 /* Wi-Fi re-connection time interval in milliseconds. */
 #define WIFI_CONN_RETRY_INTERVAL_MS       (5000)
 
-#endif /* WIFI_CONFIG_H_ */
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* SOURCE_WIFI_CONFIG_H_ */
+
+/* [] END OF FILE */

@@ -90,3 +90,6 @@ const char* get_ppp_status(void);
 #endif
 
 #endif /* SOURCE_PPP_TASK_H_ */
+
+/* [] END OF FILE */
+

@@ -77,7 +77,7 @@
 
 #include "cy_notification.h"
 
-#include "cy_lwip.h"  /* WIFI LwIP interface */
+//#include "cy_lwip.h"  /* WIFI LwIP interface */
 #include "lwip/netifapi.h"
 #include "cy_ppp_netif.h"
 
@@ -123,7 +123,7 @@ static void user_ip_lost(void)
     DEBUG_PRINT(("notify_ppp returned: %d\n", result));
 }
 
-/* PPP Username and Password defined in network_credentials.h */
+/* PPP Username and Password defined in ppp_config.h */
 static cy_rslt_t connect_to_ppp(void)
 {
     cy_rslt_t result;
@@ -353,7 +353,6 @@ void ppp_task(cy_thread_arg_t arg)
                 repeat = true;
             }
         } while (repeat);
-
 
         if (NOTIF_SHUTDOWN_IO == ulNotifiedValue) {
             break;  // end task

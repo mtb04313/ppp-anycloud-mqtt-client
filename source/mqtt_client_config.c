@@ -122,7 +122,7 @@ struct cy_awsport_ssl_credentials_t *security_info = NULL;
 /* Last Will and Testament (LWT) message structure. The MQTT broker will
  * publish the LWT message if this client disconnects unexpectedly.
  */
-static cy_mqtt_publish_info_t will_msg_info =
+static cy_mqtt_publish_info_t s_will_msg_info =
 {
     .qos = CY_MQTT_QOS2,
     .topic = MQTT_WILL_TOPIC_NAME,
@@ -135,7 +135,7 @@ static cy_mqtt_publish_info_t will_msg_info =
 #endif /* ENABLE_LWT_MESSAGE */
 
 /* MQTT connection information structure */
-cy_mqtt_connect_info_t connection_info =
+cy_mqtt_connect_info_t g_mqtt_connection_info =
 {
     .client_id = NULL,
     .client_id_len = 0,
@@ -146,7 +146,7 @@ cy_mqtt_connect_info_t connection_info =
     .clean_session = true,
     .keep_alive_sec = MQTT_KEEP_ALIVE_SECONDS,
 #if ENABLE_LWT_MESSAGE
-    .will_info = &will_msg_info
+    .will_info = &s_will_msg_info
 #else
     .will_info = NULL
 #endif /* ENABLE_LWT_MESSAGE */
