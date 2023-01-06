@@ -96,7 +96,7 @@ int main_thread(void)
     /* \x1b[2J\x1b[;H - ANSI ESC sequence to clear screen. */
     printf("\x1b[2J\x1b[;H");
     printf("===============================================================\n");
-    printf("CE229889 - AnyCloud Example: MQTT Client (%s)\n",
+    printf("PPP AnyCloud Example: MQTT Client (%s)\n",
 #ifdef COMPONENT_FREERTOS
             "FreeRTOS"
 #else
