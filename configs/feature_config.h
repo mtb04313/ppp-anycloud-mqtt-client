@@ -60,7 +60,14 @@ extern "C"
 #define FEATURE_ESIM_LPA_MENU           DISABLE_FEATURE // unused option
 #define FEATURE_APPS                    ENABLE_FEATURE
 #define FEATURE_MQTT                    ENABLE_FEATURE
+
+#if defined (TARGET_APP_CY8CKIT_062_WIFI_BT) // 062 WIFI BT Pioneer Kit
+// disable to conserve SRAM
+#define FEATURE_BLE_MODEM               DISABLE_FEATURE
+#else
 #define FEATURE_BLE_MODEM               ENABLE_FEATURE
+#endif
+
 #define FEATURE_FLASH_EEPROM            DISABLE_FEATURE // unused option
 
 // eSIM LPA menu features (only takes effect if FEATURE_ESIM_LPA_MENU is enabled)

@@ -51,7 +51,12 @@ extern "C"
 /*-- Public Definitions -------------------------------------------------*/
 
 /* whether to enable or disable memory-tracking */
+#if defined (TARGET_APP_CY8CKIT_062_WIFI_BT) // 062 WIFI BT Pioneer Kit
+// disable to conserve SRAM
+#define USE_CY_MEMTRACK         0   /* 1=enable, 0=disable */
+#else
 #define USE_CY_MEMTRACK         1   /* 1=enable, 0=disable */
+#endif
 
 #ifdef __cplusplus
 }
