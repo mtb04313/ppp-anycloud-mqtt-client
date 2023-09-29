@@ -50,6 +50,14 @@
 extern "C" {
 #endif
 
+// This setting is specific for SIMCOM 7600G
+// It tells cy_atmodem.h to set PPP_MODEM_POWER_METHOD = PPP_SIMPLE_SWITCH_METHOD
+// for SIMCOM_7600G.  We used this when plugging the mPCIe module of SIM7600G.
+//
+// However, if we are plugging the SIM7600G breakout board, we would comment out the
+// setting, so that PPP_MODEM_POWER_METHOD = PPP_POWER_STEP_METHOD
+#define USE_POWER_SWITCH_METHOD_FOR_SIMCOM_7600     1
+
 /* modem model */
 //#define ATMODEM_HW                ATMODEM_HW_MURATA_1SC
 //#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
@@ -60,8 +68,8 @@ extern "C" {
 //#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7000G
 //#define ATMODEM_HW                ATMODEM_HW_UBLOX_SARA_R412M
 //#define ATMODEM_HW                ATMODEM_HW_CINTERION_EXS62W
-#define ATMODEM_HW                ATMODEM_HW_QUECTEL_EC200U_EC200N_EC600N
-
+//#define ATMODEM_HW                ATMODEM_HW_QUECTEL_EC200U_EC200N_EC600N
+#define ATMODEM_HW                ATMODEM_HW_TELIT_LE910C1_ME910C1
 
 /* hardware pins */
 #if defined (TARGET_APP_CY8CEVAL_062S2_LAI_4373M2) // CY8CEVAL Eval Kit
