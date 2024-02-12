@@ -1,7 +1,7 @@
 /*******************************************************************************
-* File Name: feature_config.h
+* File Name: modem_test.c
 *
-* Description: This file defines whether features are enabled / disabled
+* Description: This file defines whether HW or Fake variant is in-use.
 *
 * Related Document: See README.md
 *
@@ -39,54 +39,54 @@
  so agrees to indemnify Cypress against all liability.
 *******************************************************************************/
 
-#ifndef SOURCE_FEATURE_CONFIG_H_
-#define SOURCE_FEATURE_CONFIG_H_
+#include "feature_config.h"  /* for FEATURE_UNIT_TEST_MODEM */
 
-#ifdef __cplusplus
-extern "C"
+#if (FEATURE_UNIT_TEST_MODEM == ENABLE_FEATURE)
+#include "modem_test.h"
+#include "cy_modem.h"
+#include "cy_uicc_modem.h"
+
+#include "cy_debug.h"
+#include "cy_string.h"
+
+
+/*-- Local Definitions -------------------------------------------------*/
+
+
+/*-- Public Data -------------------------------------------------*/
+
+
+/*-- Local Data -------------------------------------------------*/
+
+
+/*-- Local Functions -------------------------------------------------*/
+
+
+/*-- Public Functions -------------------------------------------------*/
+
+void test_disable_wireless(void)
 {
-#endif
-
-
-/*-- Public Definitions -------------------------------------------------*/
-
-#define ENABLE_FEATURE                  1
-#define DISABLE_FEATURE                 2
-
-// core features
-#define FEATURE_PPP                     ENABLE_FEATURE
-#define FEATURE_WIFI                    DISABLE_FEATURE
-#define FEATURE_CONSOLE                 ENABLE_FEATURE
-#define FEATURE_ESIM_LPA_MENU           DISABLE_FEATURE // unused option
-#define FEATURE_APPS                    ENABLE_FEATURE
-#define FEATURE_MQTT                    ENABLE_FEATURE
-
-#if defined (TARGET_APP_CY8CKIT_062_WIFI_BT) // 062 WIFI BT Pioneer Kit
-// disable to conserve SRAM
-#define FEATURE_BLE_MODEM               DISABLE_FEATURE
-#else
-#define FEATURE_BLE_MODEM               ENABLE_FEATURE
-#endif
-
-#define FEATURE_FLASH_EEPROM            DISABLE_FEATURE // unused option
-
-// eSIM LPA menu features (only takes effect if FEATURE_ESIM_LPA_MENU is enabled)
-#define FEATURE_ADD_PROFILE             DISABLE_FEATURE // unused option
-#define FEATURE_ADVANCED_OPTIONS        DISABLE_FEATURE // unused option
-#define FEATURE_SWITCH_PROFILE          DISABLE_FEATURE // unused option
-#define FEATURE_DELETE_PROFILE          DISABLE_FEATURE // unused option
-#define FEATURE_SET_PROFILE_NICKNAME    DISABLE_FEATURE // unused option
-
-// unit tests
-#define FEATURE_UNIT_TEST_CURL          DISABLE_FEATURE // unused option
-#define FEATURE_UNIT_TEST_ESIM_LPA      DISABLE_FEATURE // unused option
-#define FEATURE_UNIT_TEST_RTOS          DISABLE_FEATURE // unused option
-#define FEATURE_UNIT_TEST_MODEM         ENABLE_FEATURE
-
-#ifdef __cplusplus
+    cy_modem_disable_wireless();
 }
-#endif
 
-#endif      /* SOURCE_FEATURE_CONFIG_H_ */
+void test_enable_wireless(void)
+{
+    cy_modem_enable_wireless();
 
-/* [] END OF FILE */
+}
+
+bool test_is_wireless_enabled(void)
+{
+    bool is_enabled =  cy_modem_is_wireless_enabled();
+    DEBUG_PRINT(("is_enabled = %d\n", is_enabled));
+    return is_enabled;
+}
+
+void test_reset_modem(void)
+{
+    cy_modem_reset();
+}
+
+
+#endif /* FEATURE_UNIT_TEST_MODEM */
+

@@ -60,7 +60,7 @@ extern "C" {
 
 /* modem model */
 //#define ATMODEM_HW                ATMODEM_HW_MURATA_1SC
-//#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
+#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
 //#define ATMODEM_HW                ATMODEM_HW_QUECTEL_BG96
 //#define ATMODEM_HW                ATMODEM_HW_SIMCOM_A7670E
 //#define ATMODEM_HW                ATMODEM_HW_UBLOX_LARA_R280
@@ -69,75 +69,119 @@ extern "C" {
 //#define ATMODEM_HW                ATMODEM_HW_UBLOX_SARA_R412M
 //#define ATMODEM_HW                ATMODEM_HW_CINTERION_EXS62W
 //#define ATMODEM_HW                ATMODEM_HW_QUECTEL_EC200U_EC200N_EC600N
-#define ATMODEM_HW                ATMODEM_HW_TELIT_LE910C1_ME910C1
+//#define ATMODEM_HW                ATMODEM_HW_TELIT_LE910C1_ME910C1
 
 /* hardware pins */
 #if defined (TARGET_APP_CY8CEVAL_062S2_LAI_4373M2) // CY8CEVAL Eval Kit
 
-#define ATMODEM_HW_PIN_UART_RX      CYBSP_MIKROBUS_UART_RX
+    // mPCIe modem-related
+    #define IS_MPCIE_MODEM      1 // 1:true; 0:false
+    #if (IS_MPCIE_MODEM == 1)
+        #define ATMODEM_HW_PIN_MPCIE_RESET_KEY              CYBSP_MIKROBUS_RST
+        #define ATMODEM_HW_PIN_MPCIE_DISABLE_WIRELESS_KEY   CYBSP_MIKROBUS_AN
+    #else
+        #undef ATMODEM_HW_PIN_MPCIE_RESET_KEY
+        #undef ATMODEM_HW_PIN_MPCIE_DISABLE_WIRELESS_KEY
+    #endif
 
-#define ATMODEM_HW_PIN_UART_TX      CYBSP_MIKROBUS_UART_TX
+    #define ATMODEM_HW_PIN_UART_RX      CYBSP_MIKROBUS_UART_RX
 
-#if (ATMODEM_HW == ATMODEM_HW_CINTERION_EXS62W)
-#define ATMODEM_HW_PIN_UART_RTS     CYBSP_MIKROBUS_INT
-#else
-#define ATMODEM_HW_PIN_UART_RTS     CYBSP_MIKROBUS_SPI_CS
-#endif
+    #define ATMODEM_HW_PIN_UART_TX      CYBSP_MIKROBUS_UART_TX
 
-#if (ATMODEM_HW == ATMODEM_HW_UBLOX_SARA_R412M)
-#define ATMODEM_HW_PIN_POWER_KEY    CYBSP_MIKROBUS_AN
-#else
-#define ATMODEM_HW_PIN_POWER_KEY    CYBSP_MIKROBUS_RST
-#endif
+    #if (ATMODEM_HW == ATMODEM_HW_CINTERION_EXS62W)
+        #define ATMODEM_HW_PIN_UART_RTS     CYBSP_MIKROBUS_INT
+    #else
+        #define ATMODEM_HW_PIN_UART_RTS     CYBSP_MIKROBUS_SPI_CS
+    #endif
 
-#if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
-#define ATMODEM_HW_PIN_IO_REF       CYBSP_MIKROBUS_PWM  // ATMODEM_HW_MURATA_1SC on CY8CEVAL Kit
-#endif
+    #if (IS_MPCIE_MODEM == 1)
+        #undef ATMODEM_HW_PIN_POWER_KEY     // mPCIe modem has RESET instead of POWER key
+    #else
+        #if (ATMODEM_HW == ATMODEM_HW_UBLOX_SARA_R412M)
+            #define ATMODEM_HW_PIN_POWER_KEY    CYBSP_MIKROBUS_AN
+        #else
+            #define ATMODEM_HW_PIN_POWER_KEY    CYBSP_MIKROBUS_RST
+        #endif
+    #endif
+
+    #if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
+        #define ATMODEM_HW_PIN_IO_REF       CYBSP_MIKROBUS_PWM  // ATMODEM_HW_MURATA_1SC on CY8CEVAL Kit
+    #endif
 
 #elif defined (TARGET_APP_CY8CKIT_062S2_43012) // 62S2 Pioneer Kit
 
-#define ATMODEM_HW_PIN_UART_RX      (P13_4)
+    // mPCIe modem-related
+    #define IS_MPCIE_MODEM      0 // 1:true; 0:false
+    #undef ATMODEM_HW_PIN_MPCIE_RESET_KEY
+    #undef ATMODEM_HW_PIN_MPCIE_DISABLE_WIRELESS_KEY
 
-#define ATMODEM_HW_PIN_UART_TX      (P13_5)
+    #define ATMODEM_HW_PIN_UART_RX      (P13_4)
 
-#undef ATMODEM_HW_PIN_UART_RTS     // not needed (connect to GND)
+    #define ATMODEM_HW_PIN_UART_TX      (P13_5)
 
-#define ATMODEM_HW_PIN_POWER_KEY    (P8_0)
+    #undef ATMODEM_HW_PIN_UART_RTS     // not needed (connect to GND)
 
-#if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
-#define ATMODEM_HW_PIN_IO_REF       (P13_6)
-#endif
+    #define ATMODEM_HW_PIN_POWER_KEY    (P8_0)
+
+    #if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
+        #define ATMODEM_HW_PIN_IO_REF       (P13_6)
+    #endif
+
 
 #elif defined (TARGET_APP_CY8CKIT_062_WIFI_BT) // 062 WIFI BT Pioneer Kit
 
-#define ATMODEM_HW_PIN_UART_RX      (P6_0)
+    // mPCIe modem-related
+    #define IS_MPCIE_MODEM      0 // 1:true; 0:false
+    #undef ATMODEM_HW_PIN_MPCIE_RESET_KEY
+    #undef ATMODEM_HW_PIN_MPCIE_DISABLE_WIRELESS_KEY
 
-#define ATMODEM_HW_PIN_UART_TX      (P6_1)
+    #define ATMODEM_HW_PIN_UART_RX      (P6_0)
 
-#undef ATMODEM_HW_PIN_UART_RTS     // not needed (connect to GND)
+    #define ATMODEM_HW_PIN_UART_TX      (P6_1)
 
-#define ATMODEM_HW_PIN_POWER_KEY    (P6_2)
+    #undef ATMODEM_HW_PIN_UART_RTS     // not needed (connect to GND)
 
-#if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
-#define ATMODEM_HW_PIN_IO_REF       (P6_3)
-#endif
+    #define ATMODEM_HW_PIN_POWER_KEY    (P6_2)
+
+    #if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
+        #define ATMODEM_HW_PIN_IO_REF       (P6_3)
+    #endif
+
 
 #elif defined (TARGET_APP_CY8CPROTO_062_4343W) // WIFI-BT Prototyping Kit
 
-#define ATMODEM_HW_PIN_UART_RX      (P5_4)
+    // mPCIe modem-related
+    #define IS_MPCIE_MODEM      1 // 1:true; 0:false
+    #if (IS_MPCIE_MODEM == 1)
+        #define ATMODEM_HW_PIN_MPCIE_RESET_KEY              (P5_7)
+        #define ATMODEM_HW_PIN_MPCIE_DISABLE_WIRELESS_KEY   (P5_6)
+    #else
+        #undef ATMODEM_HW_PIN_MPCIE_RESET_KEY
+        #undef ATMODEM_HW_PIN_MPCIE_DISABLE_WIRELESS_KEY
+    #endif
 
-#define ATMODEM_HW_PIN_UART_TX      (P5_5)
+    #define ATMODEM_HW_PIN_UART_RX      (P5_4)
 
-#undef ATMODEM_HW_PIN_UART_RTS     // not needed (connect to GND)
+    #define ATMODEM_HW_PIN_UART_TX      (P5_5)
 
-#define ATMODEM_HW_PIN_POWER_KEY    (P5_7)
+    #undef ATMODEM_HW_PIN_UART_RTS     // not needed (connect to GND)
 
-#if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
-#define ATMODEM_HW_PIN_IO_REF       P5_6  // ATMODEM_HW_MURATA_1SC on WIFI-BT Prototyping Kit
-#endif
+    #if (IS_MPCIE_MODEM == 1)
+        #undef ATMODEM_HW_PIN_POWER_KEY     // mPCIe modem has RESET instead of POWER key
+        #undef ATMODEM_HW_PIN_IO_REF
+    #else
+        #define ATMODEM_HW_PIN_POWER_KEY    (P5_7)
+
+        #if (ATMODEM_HW == ATMODEM_HW_MURATA_1SC)
+            #define ATMODEM_HW_PIN_IO_REF   (P5_6)  // ATMODEM_HW_MURATA_1SC on WIFI-BT Prototyping Kit
+        #endif
+    #endif
+
+
 
 #else
-#pragma GCC error "Unsupported TARGET board: " __FILE__
+    #pragma GCC error "Unsupported TARGET board: " __FILE__
+
 #endif
 
 

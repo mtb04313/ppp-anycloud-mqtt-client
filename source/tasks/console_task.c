@@ -77,6 +77,10 @@
 #include "cy_unit_test_rtos.h"
 #endif
 
+#if (FEATURE_UNIT_TEST_MODEM == ENABLE_FEATURE)
+#include "modem_test.h"
+#endif
+
 
 /*-- Local Definitions -------------------------------------------------*/
 
@@ -554,6 +558,55 @@ static void handle_lpa_menu(void)
 }
 #endif
 
+#if (FEATURE_UNIT_TEST_MODEM == ENABLE_FEATURE)
+static void handle_modem_test_menu(void)
+{
+    do {
+        uint8_t subSelection = 0x00;
+        uint8_t optionFinal = '4';
+
+        draw_menu_border();
+
+        PRINT_MSG(("# mPCIe Modem Test\n"));
+        PRINT_MSG(("  1  Disable Wireless\n"));
+        PRINT_MSG(("  2  Enable Wireless\n"));
+        PRINT_MSG(("  3  Is Wireless Enabled\n"));
+        PRINT_MSG(("  4  Reset Modem\n"));
+        PRINT_MSG(("  X  Exit\n"));
+
+        subSelection = tolower(wait_for_key());
+        PRINT_MSG(("\n"));
+
+        if (!is_within(subSelection, '1', optionFinal))
+            break;
+
+        switch (subSelection)
+        {
+        case '1':
+            test_disable_wireless();
+            break;
+
+        case '2':
+            test_enable_wireless();
+            break;
+
+        case '3':
+            test_is_wireless_enabled();
+            break;
+
+        case '4':
+            test_reset_modem();
+            break;
+
+        default:
+            DEBUG_ASSERT(0);
+            break;
+        }
+
+    } while(true);
+
+}
+#endif
 
 static void console_menu(void)
 {
@@ -578,6 +631,9 @@ static void console_menu(void)
     uint8_t optionUnitTestRtos = ++optionFinal;
 #endif
 
+#if (FEATURE_UNIT_TEST_MODEM == ENABLE_FEATURE)
+    uint8_t optionUnitTestModem = ++optionFinal;
+#endif
 
     do {
         uint8_t selection = 0x00;
@@ -600,6 +656,10 @@ static void console_menu(void)
 
 #if (FEATURE_UNIT_TEST_RTOS == ENABLE_FEATURE)
         PRINT_MSG(("  %c  Run RTOS unit tests\n", optionUnitTestRtos));
+#endif
+
+#if (FEATURE_UNIT_TEST_MODEM == ENABLE_FEATURE)
+        PRINT_MSG(("  %c  Run Modem unit tests\n", optionUnitTestModem));
 #endif
 
         PRINT_MSG(("  X  Exit\n"));
@@ -655,6 +715,12 @@ static void console_menu(void)
                 if (get_user_confirmation()) {
                     unit_test_rtos_main();
                 }
+            }
+#endif
+
+#if (FEATURE_UNIT_TEST_MODEM == ENABLE_FEATURE)
+            else if (selection == optionUnitTestModem) {
+                handle_modem_test_menu();
             }
 #endif
 
