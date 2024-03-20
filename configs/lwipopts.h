@@ -97,7 +97,7 @@
 //
 // Enable IPV6 networking
 //
-#define LWIP_IPV6                       (1)
+#define LWIP_IPV6                       (0) // was (1)
 
 #define ETHARP_SUPPORT_STATIC_ENTRIES   (1)
 

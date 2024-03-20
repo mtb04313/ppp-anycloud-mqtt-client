@@ -204,6 +204,7 @@ static cy_rslt_t connect_to_ppp(void)
                 memcpy(&s_ppp_dns_addr[0], dns_getserver(0), sizeof(s_ppp_dns_addr[0]));
                 memcpy(&s_ppp_dns_addr[1], dns_getserver(1), sizeof(s_ppp_dns_addr[1]));
 
+#if (PPP_IPV6_SUPPORT)
                 if (s_ppp_dns_addr[0].type == IPADDR_TYPE_V4) {
                     CY_LOGD(TAG, "PPP dns_server[0] = %s",
                             inet_ntoa(s_ppp_dns_addr[0]));
@@ -219,7 +220,14 @@ static cy_rslt_t connect_to_ppp(void)
                     CY_LOGD(TAG, "PPP dns_server[1] = %s",
                             inet6_ntoa(s_ppp_dns_addr[1]));
                 }
+#else
+                // only has IPv4 support
+                CY_LOGD(TAG, "PPP dns_server[0] = %s",
+                        inet_ntoa(s_ppp_dns_addr[0]));
+                CY_LOGD(TAG, "PPP dns_server[1] = %s",
+                        inet_ntoa(s_ppp_dns_addr[1]));
 
+#endif
                 memcpy(&s_ppp_ip_addr, &ip_address, sizeof(s_ppp_ip_addr));
                 return result;
 

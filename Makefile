@@ -40,7 +40,7 @@ MTB_TYPE=COMBINED
 # To change the target, it is recommended to use the Library manager
 # ('make library-manager' from command line), which will also update Eclipse IDE launch
 # configurations.
-TARGET=APP_CY8CPROTO-062-4343W
+TARGET=APP_CY8CEVAL-062S2-LAI-4373M2
 
 # Name of application (used to derive name of final linked file).
 #
@@ -124,6 +124,8 @@ DEFINES=$(MBEDTLSFLAGS) CYBSP_WIFI_CAPABLE CY_RETARGET_IO_CONVERT_LF_TO_CRLF ENA
 ifeq ($(TARGET), CY8CPROTO-062-4343W)
 DEFINES+=CY_WIFI_HOST_WAKE_SW_FORCE=0
 endif
+
+DEFINES+= CY_RTOS_AWARE
 
 # Select softfp or hardfp floating point. Default is softfp.
 VFP_SELECT=
