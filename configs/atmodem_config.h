@@ -60,7 +60,7 @@ extern "C" {
 
 /* modem model */
 //#define ATMODEM_HW                ATMODEM_HW_MURATA_1SC
-#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
+//#define ATMODEM_HW                ATMODEM_HW_SIMCOM_7600G
 //#define ATMODEM_HW                ATMODEM_HW_QUECTEL_BG96
 //#define ATMODEM_HW                ATMODEM_HW_SIMCOM_A7670E
 //#define ATMODEM_HW                ATMODEM_HW_UBLOX_LARA_R280
@@ -70,6 +70,7 @@ extern "C" {
 //#define ATMODEM_HW                ATMODEM_HW_CINTERION_EXS62W
 //#define ATMODEM_HW                ATMODEM_HW_QUECTEL_EC200U_EC200N_EC600N
 //#define ATMODEM_HW                ATMODEM_HW_TELIT_LE910C1_ME910C1
+#define ATMODEM_HW                ATMODEM_HW_ANY_MPCIE
 
 /* hardware pins */
 #if defined (TARGET_APP_CY8CEVAL_062S2_LAI_4373M2) // CY8CEVAL Eval Kit
